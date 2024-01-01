@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block title %}
+  YBBlog/makaleler/makale/{{ article.id }}
+{% endblock %}
+{% block body %}
+<div class="row">
+  <div class="col-md-10 offset-md-3">
+    <div class="col-lg-8">
+      <h1 class="mt-4">{{ article.title }}</h3>
+      <p class="lead">{{ article.author }} tarafından yayınlandı</p>
+      <hr />
+      <p>{{ article.created_date }}</p>
+      <hr />
+      {% if article.article_image %}
+        <img class="img-fluid rounded" src="{{ article.article_image.url }}" alt="a image" />
+      {% endif %}
+      <hr />
+      <p>{{ article.content|safe }}</p>
+      <hr />
+      <h4>Yorumlar</h4>
+      <hr />
+      {% if comments %}
+      {% for comment in comments %}
+      <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+        <div class="media-body">
+          <h5 class="mt-0">{{comment.comment_author}}</h5>
+          {{comment.comment_date}} <br>
+          {{comment.comment_content}}
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="alert alert-info" role="alert">Henüz Yorum Bulunmuyor İlk Yorum Yapan Siz Olun... </div>
+      {% endif %}
+      <hr />
+      <div class="card my-4">
+        <h5 class="card-header">Yorum Ekle:</h5>
+        <div class="card-body">
+          <form method="post" action="{% url 'article:addcomment' article.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="comname">İsim</label>
+              <input type="text" name="comment_author" class="form-control" id="comname" maxlength="50" placeholder="İsminiz...(max:50)">
+            </div>
+            <div class="form-group">
+              <label for="comment">Yorum</label>
+              <textarea class="form-control" name="comment_content" rows="3" id="comment" placeholder="Yorumunuz...(max:200)" maxlength="200"></textarea>
+            </div>
+            <button style="float:right" type="submit" class="btn btn-outline-primary">Ekle</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

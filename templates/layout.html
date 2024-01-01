@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <title>
+      {% block title %}
+        YBBlog
+      {% endblock %}
+    </title>
+  </head>
+
+  <body>
+    {% include "includes/navbar.html" %}
+    <br/>
+    <div class="container mt-5 mb-5">
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            {% if message.tags == 'error' %}
+              <div class="alert alert-danger" role="alert">{{ message }}</div>
+            {% else %}
+              <div class=" alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block body %}
+
+      {% endblock %}
+    </div>
+
+    <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'js/popper.min.js' %}"  crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"  crossorigin="anonymous"></script>
+    <script src="{% static 'js/run_prettify.js' %}"  crossorigin="anonymous"></script>
+  </body>
+</html>
